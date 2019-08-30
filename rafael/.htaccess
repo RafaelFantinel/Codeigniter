@@ -1,0 +1,20 @@
+Options -Indexes
+# index file can be index.php, home.php, default.php etc.
+DirectoryIndex index.php
+
+# Rewrite engine
+RewriteEngine On
+
+# condition with escaping special chars
+RewriteCond $1 !^(index\.php|robots\.txt|favicon\.ico)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# the following is for rewritting under FastCGI
+<IfModule mod_php5.c>    
+    RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+</IfModule>
+
+# the following is for rewritting under FastCGI
+<IfModule !mod_php5.c>    
+    RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+</IfModule>
